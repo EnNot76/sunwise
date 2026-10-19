@@ -9,20 +9,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
+
       - run: npm install
+
       - run: npx cap add android
+
+      - name: Permessi posizione e vibrazione
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's#</manifest>#    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>\n    <uses-permission android:name="android.permission.VIBRATE"/>\n</manifest>#' $M
+
       - run: npx cap sync android
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
+
       - uses: actions/upload-artifact@v4
         with:
           name: SunWise-debug-apk
