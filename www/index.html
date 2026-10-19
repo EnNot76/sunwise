@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>SunWise Protect</title>
+<style>
+:root{--bg:#f4f7fb;--card:#ffffffcc;--tx:#0f172a;--mut:#64748b;--ac:#f59e0b;--bd:#e2e8f0}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1120;--card:#1e293bcc;--tx:#f1f5f9;--mut:#94a3b8;--bd:#334155}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--tx);
+padding:env(safe-area-inset-top) 16px 90px}
+header{padding:22px 4px 8px}
+h1{margin:0;font-size:26px}h1 span{color:var(--ac)}
+.sub{color:var(--mut);font-size:14px}
+.card{background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--bd);
+border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 8px 24px #0001}
+h2{font-size:15px;margin:0 0 12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+.skins{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.skin{border:2px solid transparent;border-radius:14px;padding:10px 4px;text-align:center;
+font-size:12px;cursor:pointer;background:var(--bg);transition:.2s}
+.skin i{display:block;width:34px;height:34px;border-radius:50%;margin:0 auto 6px;border:1px solid #0002}
+.skin.on{border-color:var(--ac);transform:scale(1.04)}
+input[type=range]{width:100%;height:12px;border-radius:8px;appearance:none;
+background:linear-gradient(90deg,#22c55e,#eab308 35%,#f97316 60%,#ef4444 80%,#a855f7)}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:30px;height:30px;border-radius:50%;
+background:#fff;border:4px solid var(--ac);box-shadow:0 2px 8px #0005}
+.uv{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.uv b{font-size:44px}
+.chip{padding:4px 12px;border-radius:99px;color:#fff;font-weight:600;font-size:13px}
+.spf{display:flex;gap:8px;flex-wrap:wrap}
+.spf button{flex:1;padding:10px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);
+color:var(--tx);font-weight:600}
+.spf button.on{background:var(--ac);color:#000;border-color:var(--ac)}
+.res{text-align:center}
+.big{font-size:56px;font-weight:800;color:var(--ac);line-height:1}
+.btn{width:100%;padding:16px;border:0;border-radius:16px;background:var(--ac);color:#000;
+font-size:17px;font-weight:700;margin-top:14px}
+.warn{font-size:13px;color:var(--mut);margin-top:10px}
+details summary{cursor:pointer;font-weight:600}
+li{margin:6px 0;font-size:14px}
+footer{text-align:center;color:var(--mut);font-size:12px;margin-top:20px}
+</style>
+</head>
+<body>
+<header><h1>Sun<span>Wise</span> Protect</h1>
+<div class="sub">Calcola quanto puoi stare al sole senza scottarti</div></header>
+
+<section class="card"><h2>Tipo di pelle (Fitzpatrick)</h2><div class="skins" id="skins"></div></section>
+
+<section class="card"><h2>Livello UV attuale</h2>
+<div class="uv"><b id="uvv">6</b><span class="chip" id="uvc"></span></div>
+<input type="range" id="uv" min="1" max="11" value="6"></section>
+
+<section class="card"><h2>Fattore di protezione</h2>
+<div class="spf" id="spf"></div></section>
+
+<section class="card res"><h2>Tempo massimo di esposizione</h2>
+<div class="big" id="time">--</div><div class="sub" id="unit">minuti</div>
+<div id="left" class="sub" style="margin-top:8px"></div>
+<button class="btn" id="go">▶ Avvia timer</button>
+<div class="warn">⚠ Stima indicativa. Riapplica la crema ogni 2 ore e dopo il bagno.</div></section>
+
+<section class="card"><details><summary>Istruzioni per l'uso</summary><ol>
+<li>Scegli il tuo tipo di pelle.</li><li>Imposta l'indice UV attuale (meteo).</li>
+<li>Seleziona l'SPF della crema.</li><li>Avvia il timer: ti avvisa alla scadenza.</li>
+<li>Evita il sole tra le 11 e le 16.</li></ol></details></section>
+<footer>Concept Code by Enzo Notari</footer>
+
+<script>
+const SK=[["I","Molto chiara",200,"#ffe0cc"],["II","Chiara",250,"#f6cfae"],["III","Intermedia",300,"#e0b184"],
+["IV","Olivastra",450,"#c58e5c"],["V","Scura",600,"#8d5a35"],["VI","Molto scura",1000,"#4a2c1a"]];
+const UVL=[[2,"Basso","#22c55e"],[5,"Moderato","#eab308"],[7,"Alto","#f97316"],[10,"Molto alto","#ef4444"],[99,"Estremo","#a855f7"]];
+const SPFS=[0,15,30,50];
+let st=JSON.parse(localStorage.sw||'{"s":1,"u":6,"p":30}'),tm=null,end=0;
+const $=i=>document.getElementById(i);
+function save(){localStorage.sw=JSON.stringify(st)}
+function minutes(){return SK[st.s][2]/(st.u*1.5)*(st.p?st.p*0.8:1)}
+function render(){
+ $('skins').innerHTML=SK.map((k,i)=>`<div class="skin ${i==st.s?'on':''}" onclick="st.s=${i};save();render()"><i style="background:${k[3]}"></i><b>${k[0]}</b><br>${k[1]}</div>`).join('');
+ $('spf').innerHTML=SPFS.map(p=>`<button class="${p==st.p?'on':''}" onclick="st.p=${p};save();render()">${p?'SPF '+p:'Nessuna'}</button>`).join('');
+ $('uv').value=st.u;$('uvv').textContent=st.u;
+ const l=UVL.find(x=>st.u<=x[0]);$('uvc').textContent=l[1];$('uvc').style.background=l[2];
+ const m=Math.round(minutes());
+ $('time').textContent=m>=120?Math.floor(m/60)+'h '+(m%60):m;
+ $('unit').textContent=m>=120?'':'minuti';
+}
+$('uv').oninput=e=>{st.u=+e.target.value;save();render()};
+$('go').onclick=()=>{
+ if(tm){clearInterval(tm);tm=null;$('go').textContent='▶ Avvia timer';$('left').textContent='';return}
+ end=Date.now()+minutes()*60000;$('go').textContent='■ Ferma timer';
+ tm=setInterval(()=>{const r=end-Date.now();
+  if(r<=0){clearInterval(tm);tm=null;$('left').textContent='⏰ Tempo scaduto! Mettiti all\'ombra.';
+   navigator.vibrate&&navigator.vibrate([500,200,500,200,500]);$('go').textContent='▶ Avvia timer';return}
+  const s=Math.floor(r/1000);$('left').textContent='Rimasti '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},500)};
+render();
+</script>
+</body></html>
