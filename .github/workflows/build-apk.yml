@@ -23,6 +23,9 @@ jobs:
 
       - run: npx cap add android
 
+            - name: Genera icone
+        run: npx capacitor-assets generate --android --iconBackgroundColor '#FFECB3' --iconBackgroundColorDark '#FFECB3'
+
       - name: Permessi posizione e vibrazione
         run: |
           M=android/app/src/main/AndroidManifest.xml
