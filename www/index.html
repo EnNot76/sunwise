@@ -3,97 +3,283 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#ff8a00">
 <title>SunWise Protect</title>
 <style>
-:root{--bg:#f4f7fb;--card:#ffffffcc;--tx:#0f172a;--mut:#64748b;--ac:#f59e0b;--bd:#e2e8f0}
-@media(prefers-color-scheme:dark){:root{--bg:#0b1120;--card:#1e293bcc;--tx:#f1f5f9;--mut:#94a3b8;--bd:#334155}}
+:root{--bg1:#ffe7b8;--bg2:#fff6e3;--card:#ffffffd9;--tx:#2d1600;--mut:#7a5c46;--ac:#ff8a00;--bd:#f1d5a6;--chip:#fff3dc}
+@media(prefers-color-scheme:dark){:root{--bg1:#2a1700;--bg2:#0f0a05;--card:#241a10d9;--tx:#fdf1e3;--mut:#c7a98c;--bd:#4a3520;--chip:#33241459}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--tx);
-padding:env(safe-area-inset-top) 16px 90px}
-header{padding:22px 4px 8px}
-h1{margin:0;font-size:26px}h1 span{color:var(--ac)}
-.sub{color:var(--mut);font-size:14px}
-.card{background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--bd);
-border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 8px 24px #0001}
-h2{font-size:15px;margin:0 0 12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Roboto,sans-serif;color:var(--tx);
+background:radial-gradient(circle at top,var(--bg1),var(--bg2) 70%) fixed;
+padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 92px)}
+main{max-width:540px;margin:0 auto}
+h1{text-align:center;font-size:30px;margin:14px 0 2px;background:linear-gradient(90deg,#ff8a00,#ffc400);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:in .8s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(-14px) scale(.92)}to{opacity:1;transform:none}}
+.card{background:var(--card);backdrop-filter:blur(14px);border:1px solid var(--bd);border-radius:24px;
+padding:16px;margin:14px 0;box-shadow:0 14px 34px #8d491226}
+h3{margin:0 0 10px;font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}
 .skins{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.skin{border:2px solid transparent;border-radius:14px;padding:10px 4px;text-align:center;
-font-size:12px;cursor:pointer;background:var(--bg);transition:.2s}
-.skin i{display:block;width:34px;height:34px;border-radius:50%;margin:0 auto 6px;border:1px solid #0002}
-.skin.on{border-color:var(--ac);transform:scale(1.04)}
-input[type=range]{width:100%;height:12px;border-radius:8px;appearance:none;
-background:linear-gradient(90deg,#22c55e,#eab308 35%,#f97316 60%,#ef4444 80%,#a855f7)}
-input[type=range]::-webkit-slider-thumb{appearance:none;width:30px;height:30px;border-radius:50%;
-background:#fff;border:4px solid var(--ac);box-shadow:0 2px 8px #0005}
-.uv{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
-.uv b{font-size:44px}
-.chip{padding:4px 12px;border-radius:99px;color:#fff;font-weight:600;font-size:13px}
-.spf{display:flex;gap:8px;flex-wrap:wrap}
-.spf button{flex:1;padding:10px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);
-color:var(--tx);font-weight:600}
-.spf button.on{background:var(--ac);color:#000;border-color:var(--ac)}
-.res{text-align:center}
-.big{font-size:56px;font-weight:800;color:var(--ac);line-height:1}
-.btn{width:100%;padding:16px;border:0;border-radius:16px;background:var(--ac);color:#000;
-font-size:17px;font-weight:700;margin-top:14px}
-.warn{font-size:13px;color:var(--mut);margin-top:10px}
-details summary{cursor:pointer;font-weight:600}
-li{margin:6px 0;font-size:14px}
-footer{text-align:center;color:var(--mut);font-size:12px;margin-top:20px}
+.skin{display:flex;align-items:center;gap:8px;height:48px;padding:0 12px;border-radius:16px;
+border:2px solid var(--bd);background:var(--chip);color:var(--tx);font-weight:700;font-size:15px;transition:.15s}
+.skin i{width:22px;height:22px;border-radius:50%;box-shadow:0 3px 6px #0004;border:1px solid #0003}
+.on{border-color:var(--ac)!important;box-shadow:0 0 0 3px #ff8a0044;transform:scale(1.03)}
+.uvgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.uvb{height:46px;border-radius:14px;border:2px solid transparent;font-weight:800;font-size:16px;color:#fff;
+text-shadow:0 1px 2px #0006;transition:.15s}
+.geo{grid-column:span 6;height:52px;border-radius:16px;border:0;background:linear-gradient(135deg,#ff8a00,#ffc400);
+color:#fff;font-weight:800;font-size:16px;box-shadow:0 8px 18px #ff8a0055}
+.geo:disabled{opacity:.6}
+#uvCard{display:none;margin-top:14px;padding:14px;border-radius:18px;background:var(--chip);border:1px solid var(--bd)}
+#uvCard.show{display:block;animation:in .4s}
+.uvTop{display:flex;align-items:center;gap:14px}
+.uvBig{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:30px;font-weight:800;
+text-shadow:0 1px 3px #0006;flex:none}
+.uvTxt b{font-size:18px}.uvTxt div{color:var(--mut);font-size:13px}
+.uvStats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;font-size:14px}
+.uvStats span{background:var(--card);border-radius:12px;padding:8px 10px}
+.spf{display:flex;gap:8px}
+.spf button{flex:1;height:44px;border-radius:14px;border:2px solid var(--bd);background:var(--chip);color:var(--tx);font-weight:700}
+.actions{display:flex;gap:12px}
+.act{flex:1;height:54px;border:0;border-radius:99px;color:#fff;font-size:18px;font-weight:700;box-shadow:0 10px 20px #a0500040;transition:.1s}
+.act:active{transform:scale(.96)}
+.calc{background:linear-gradient(135deg,#34c759,#7be495)}
+.reset{background:linear-gradient(135deg,#ff4b3a,#ff8a80);flex:.45}
+.res{display:none;text-align:center}.res.show{display:block;animation:in .4s}
+.ring{--p:0;--c:#34c759;width:150px;height:150px;border-radius:50%;margin:4px auto 10px;display:grid;place-items:center;
+background:conic-gradient(var(--c) calc(var(--p)*1%),#8883 0)}
+.ring div{width:122px;height:122px;border-radius:50%;background:var(--bg2);display:grid;place-items:center;align-content:center}
+.ring b{font-size:42px;line-height:1}.ring span{font-size:13px;color:var(--mut)}
+.tag{display:inline-block;padding:6px 14px;border-radius:99px;background:var(--chip);border:1px solid var(--bd);font-weight:700;margin:2px}
+.timer{width:100%;height:50px;border:0;border-radius:16px;margin-top:12px;background:var(--ac);color:#fff;font-size:16px;font-weight:700}
+#left{margin-top:8px;font-weight:700;font-variant-numeric:tabular-nums}
+.warn{text-align:center;color:var(--mut);font-size:14px}
+nav{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 10px);max-width:516px;margin:auto;
+display:flex;justify-content:space-around;background:var(--card);backdrop-filter:blur(18px);border:1px solid var(--bd);
+border-radius:99px;padding:6px;box-shadow:0 12px 30px #0003}
+nav button{flex:1;height:48px;border:0;background:none;font-size:22px;border-radius:99px;color:var(--tx)}
+nav button:active{background:var(--chip)}
+.sheet{position:fixed;inset:0;background:#28140088;display:none;z-index:20;align-items:flex-end;justify-content:center}
+.sheet.show{display:flex}
+.sheet .in{background:var(--bg2);color:var(--tx);width:100%;max-width:540px;max-height:82vh;overflow:auto;
+border-radius:28px 28px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 20px);animation:up .25s ease-out}
+@keyframes up{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+.sheet h4{margin:0 0 12px;font-size:18px}
+.langs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.langs button{height:64px;border-radius:16px;border:2px solid var(--bd);background:var(--chip);font-size:24px;color:var(--tx)}
+.langs button small{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 5px;text-align:left;border-bottom:1px solid var(--bd)}th{color:var(--ac)}
+ol{padding-left:20px;line-height:1.55}
+.foot{text-align:center;font-size:12px;color:var(--mut);margin-top:10px}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 86px);transform:translate(-50%,30px);opacity:0;
+padding:10px 20px;border-radius:99px;background:#fff;color:#111;font-size:14px;box-shadow:0 10px 30px #0005;
+transition:.25s;z-index:50;max-width:90vw;text-align:center;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.warning{background:#fef3c7}#toast.error{background:#fee2e2}#toast.info{background:#dbeafe}
 </style>
 </head>
 <body>
-<header><h1>Sun<span>Wise</span> Protect</h1>
-<div class="sub">Calcola quanto puoi stare al sole senza scottarti</div></header>
+<main>
+<h1 id="title"></h1>
 
-<section class="card"><h2>Tipo di pelle (Fitzpatrick)</h2><div class="skins" id="skins"></div></section>
+<section class="card"><h3 id="tSkin"></h3><div class="skins" id="skins"></div></section>
 
-<section class="card"><h2>Livello UV attuale</h2>
-<div class="uv"><b id="uvv">6</b><span class="chip" id="uvc"></span></div>
-<input type="range" id="uv" min="1" max="11" value="6"></section>
+<section class="card"><h3 id="tUV"></h3>
+ <button class="geo" id="bGeo"></button>
+ <div id="uvCard">
+  <div class="uvTop"><div class="uvBig" id="uvBig"></div>
+   <div class="uvTxt"><b id="uvLvl"></b><div id="uvWhen"></div></div></div>
+  <div class="uvStats" id="uvStats"></div>
+ </div>
+ <div class="uvgrid" id="uvs" style="margin-top:14px"></div>
+</section>
 
-<section class="card"><h2>Fattore di protezione</h2>
-<div class="spf" id="spf"></div></section>
+<section class="card"><h3 id="tSPF"></h3><div class="spf" id="spf"></div></section>
 
-<section class="card res"><h2>Tempo massimo di esposizione</h2>
-<div class="big" id="time">--</div><div class="sub" id="unit">minuti</div>
-<div id="left" class="sub" style="margin-top:8px"></div>
-<button class="btn" id="go">▶ Avvia timer</button>
-<div class="warn">⚠ Stima indicativa. Riapplica la crema ogni 2 ore e dopo il bagno.</div></section>
+<div class="actions">
+ <button class="act calc" id="bCalc" aria-label="Calcola">⏱️</button>
+ <button class="act reset" id="bReset" aria-label="Reset">🔄</button>
+</div>
 
-<section class="card"><details><summary>Istruzioni per l'uso</summary><ol>
-<li>Scegli il tuo tipo di pelle.</li><li>Imposta l'indice UV attuale (meteo).</li>
-<li>Seleziona l'SPF della crema.</li><li>Avvia il timer: ti avvisa alla scadenza.</li>
-<li>Evita il sole tra le 11 e le 16.</li></ol></details></section>
-<footer>Concept Code by Enzo Notari</footer>
+<section class="card res" id="res">
+ <div class="ring" id="ring"><div><b id="mins">0</b><span id="unit"></span></div></div>
+ <div id="tags"></div>
+ <button class="timer" id="bTimer"></button>
+ <div id="left"></div>
+</section>
+<p class="warn" id="avviso"></p>
+</main>
+
+<nav>
+ <button id="nLang" aria-label="Language">🌍</button>
+ <button id="nInfo" aria-label="Info">ℹ️</button>
+ <button id="nFitz" aria-label="Fitzpatrick">❓</button>
+</nav>
+
+<div class="sheet" id="sLang"><div class="in"><h4>🌍 Language</h4><div class="langs" id="langs"></div></div></div>
+<div class="sheet" id="sInfo"><div class="in"><h4 id="iTitle"></h4><ol id="iText"></ol>
+ <div class="foot">☀️ Concept &amp; Code by Enzo Notari</div></div></div>
+<div class="sheet" id="sFitz"><div class="in"><h4 id="fTitle"></h4><table id="fTable"></table></div></div>
+<div id="toast"></div>
 
 <script>
-const SK=[["I","Molto chiara",200,"#ffe0cc"],["II","Chiara",250,"#f6cfae"],["III","Intermedia",300,"#e0b184"],
-["IV","Olivastra",450,"#c58e5c"],["V","Scura",600,"#8d5a35"],["VI","Molto scura",1000,"#4a2c1a"]];
-const UVL=[[2,"Basso","#22c55e"],[5,"Moderato","#eab308"],[7,"Alto","#f97316"],[10,"Molto alto","#ef4444"],[99,"Estremo","#a855f7"]];
+const T={
+it:{n:"Italiano",title:"🌞 SunWise Protect 🌞",skin:"Tipo di Pelle",uv:"Livello UV Attuale",spf:"Protezione solare",none:"Nessuna",
+ gps:"📍 Rileva UV dove sei",warn:"⚠️ Usa sempre la protezione solare!",selSkin:"⚠️ Seleziona prima il tipo di pelle!",selUV:"⚠️ Seleziona il livello UV!",
+ min:"minuti",sug:"Consigliato",geoErr:"Non è stato possibile ottenere la tua posizione.",noGeo:"Il tuo dispositivo non supporta la geolocalizzazione.",
+ uvErr:"Errore nel recupero del livello UV.",uvNow:"Livello UV attuale: {uv}",locating:"📍 Localizzazione…",
+ lv:["Basso","Moderato","Alto","Molto alto","Estremo"],now:"UV ora",max:"Max oggi",clear:"Cielo sereno",cloud:"Nuvole",temp:"Temperatura",at:"Aggiornato alle",
+ start:"▶ Avvia timer",stop:"■ Ferma timer",left:"Rimasti",done:"⏰ Tempo scaduto! Vai all'ombra.",
+ fT:"Classificazione di Fitzpatrick del Tipo di Pelle",fH:["Tipo","Caratteristiche","Abbronzatura"],
+ f:[["Pelle bianca pallida, occhi blu o verdi","Brucia sempre, non si abbronza mai"],["Pelle chiara, occhi blu, nocciola o verdi","Brucia facilmente, si abbronza con difficoltà"],["Pelle bianca più scura","A volte lieve scottatura, si abbronza gradualmente"],["Pelle marrone chiaro","Brucia solo leggermente, si abbronza facilmente"],["Pelle scura","Raramente brucia, si abbronza facilmente"],["Pelle marrone scuro o nera","Non brucia mai"]],
+ iT:"Istruzioni per l'Uso",i:["Seleziona il tuo tipo di pelle.","Premi 📍 per rilevare il livello UV dove ti trovi (può richiedere alcuni secondi) oppure sceglilo a mano.","Scegli l'SPF della tua crema (facoltativo).","Premi ⏱️ per calcolare il tempo massimo di esposizione.","Avvia il timer: ti avvisa alla scadenza."]},
+en:{n:"English",title:"🌞 SunWise Protect 🌞",skin:"Skin Type",uv:"Current UV Level",spf:"Sunscreen",none:"None",
+ gps:"📍 Detect UV at my location",warn:"⚠️ Always use sunscreen!",selSkin:"⚠️ Select your skin type first!",selUV:"⚠️ Select the UV level!",
+ min:"minutes",sug:"Recommended",geoErr:"Unable to retrieve your location.",noGeo:"Your device does not support geolocation.",
+ uvErr:"Error fetching UV level.",uvNow:"Current UV level: {uv}",locating:"📍 Locating…",
+ lv:["Low","Moderate","High","Very high","Extreme"],now:"UV now",max:"Max today",clear:"Clear sky",cloud:"Clouds",temp:"Temperature",at:"Updated at",
+ start:"▶ Start timer",stop:"■ Stop timer",left:"Left",done:"⏰ Time's up! Move to the shade.",
+ fT:"Fitzpatrick Skin Type Classification",fH:["Type","Characteristics","Tanning"],
+ f:[["Pale white skin, blue or green eyes","Always burns, never tans"],["Fair skin, blue, hazel or green eyes","Burns easily, tans with difficulty"],["Darker white skin","Sometimes mild burn, tans gradually"],["Light brown skin","Burns minimally, tans easily"],["Dark skin","Rarely burns, tans easily"],["Dark brown or black skin","Never burns"]],
+ iT:"Instructions for Use",i:["Select your skin type.","Press 📍 to detect the UV level where you are (may take a few seconds) or pick it manually.","Choose your sunscreen SPF (optional).","Press ⏱️ to calculate the maximum exposure time.","Start the timer: it alerts you when time is up."]},
+de:{n:"Deutsch",title:"🌞 SunWise Protect 🌞",skin:"Hauttyp",uv:"Aktueller UV-Index",spf:"Sonnenschutz",none:"Keiner",
+ gps:"📍 UV-Index am Standort ermitteln",warn:"⚠️ Verwenden Sie immer Sonnenschutz!",selSkin:"⚠️ Bitte zuerst Hauttyp wählen!",selUV:"⚠️ Bitte UV-Index wählen!",
+ min:"Minuten",sug:"Empfohlen",geoErr:"Ihr Standort konnte nicht ermittelt werden.",noGeo:"Ihr Gerät unterstützt keine Geolokalisierung.",
+ uvErr:"Fehler beim Abrufen des UV-Index.",uvNow:"Aktueller UV-Index: {uv}",locating:"📍 Standort wird ermittelt…",
+ lv:["Niedrig","Mäßig","Hoch","Sehr hoch","Extrem"],now:"UV jetzt",max:"Max heute",clear:"Klarer Himmel",cloud:"Wolken",temp:"Temperatur",at:"Aktualisiert um",
+ start:"▶ Timer starten",stop:"■ Timer stoppen",left:"Übrig",done:"⏰ Zeit abgelaufen! Ab in den Schatten.",
+ fT:"Fitzpatrick-Hauttypen-Klassifikation",fH:["Typ","Merkmale","Bräunung"],
+ f:[["Blasse weiße Haut, blaue oder grüne Augen","Verbrennt immer, bräunt nie"],["Helle Haut, blaue, haselnussbraune oder grüne Augen","Verbrennt leicht, bräunt schwer"],["Dunklere weiße Haut","Manchmal leichte Verbrennung, bräunt allmählich"],["Hellbraune Haut","Verbrennt minimal, bräunt leicht"],["Dunkle Haut","Verbrennt selten, bräunt leicht"],["Dunkelbraune oder schwarze Haut","Verbrennt nie"]],
+ iT:"Bedienungsanleitung",i:["Wählen Sie Ihren Hauttyp.","Drücken Sie 📍, um den UV-Index an Ihrem Standort zu ermitteln (kann einige Sekunden dauern), oder wählen Sie ihn manuell.","Wählen Sie den LSF Ihrer Sonnencreme (optional).","Drücken Sie ⏱️, um die maximale Sonnenzeit zu berechnen.","Starten Sie den Timer: Er meldet sich bei Ablauf."]},
+fr:{n:"Français",title:"🌞 SunWise Protect 🌞",skin:"Type de Peau",uv:"Niveau UV Actuel",spf:"Protection solaire",none:"Aucune",
+ gps:"📍 Détecter l'UV ici",warn:"⚠️ Utilisez toujours une protection solaire !",selSkin:"⚠️ Sélectionnez d'abord votre type de peau !",selUV:"⚠️ Sélectionnez le niveau UV !",
+ min:"minutes",sug:"Conseillé",geoErr:"Impossible d'obtenir votre position.",noGeo:"Votre appareil ne supporte pas la géolocalisation.",
+ uvErr:"Erreur lors de la récupération du niveau UV.",uvNow:"Niveau UV actuel : {uv}",locating:"📍 Localisation…",
+ lv:["Faible","Modéré","Élevé","Très élevé","Extrême"],now:"UV actuel",max:"Max aujourd'hui",clear:"Ciel dégagé",cloud:"Nuages",temp:"Température",at:"Mis à jour à",
+ start:"▶ Démarrer le minuteur",stop:"■ Arrêter le minuteur",left:"Restant",done:"⏰ Temps écoulé ! Mettez-vous à l'ombre.",
+ fT:"Classification Fitzpatrick du Type de Peau",fH:["Type","Caractéristiques","Bronzage"],
+ f:[["Peau très claire, yeux bleus ou verts","Brûle toujours, ne bronze jamais"],["Peau claire, yeux bleus, noisette ou verts","Brûle facilement, bronze difficilement"],["Peau blanche plus foncée","Parfois légère brûlure, bronze progressivement"],["Peau légèrement bronzée","Brûle légèrement, bronze facilement"],["Peau foncée","Brûle rarement, bronze facilement"],["Peau très foncée ou noire","Ne brûle jamais"]],
+ iT:"Instructions d'Utilisation",i:["Sélectionnez votre type de peau.","Appuyez sur 📍 pour détecter le niveau UV là où vous êtes (quelques secondes) ou choisissez-le manuellement.","Choisissez l'indice SPF de votre crème (facultatif).","Appuyez sur ⏱️ pour calculer le temps maximum d'exposition.","Lancez le minuteur : il vous prévient à la fin."]},
+es:{n:"Español",title:"🌞 SunWise Protect 🌞",skin:"Tipo de Piel",uv:"Nivel UV Actual",spf:"Protector solar",none:"Ninguno",
+ gps:"📍 Detectar UV donde estás",warn:"⚠️ ¡Usa siempre protector solar!",selSkin:"⚠️ ¡Selecciona primero tu tipo de piel!",selUV:"⚠️ ¡Selecciona el nivel UV!",
+ min:"minutos",sug:"Recomendado",geoErr:"No se pudo obtener tu ubicación.",noGeo:"Tu dispositivo no soporta la geolocalización.",
+ uvErr:"Error al recuperar el nivel UV.",uvNow:"Nivel UV actual: {uv}",locating:"📍 Localizando…",
+ lv:["Bajo","Moderado","Alto","Muy alto","Extremo"],now:"UV ahora",max:"Máx. hoy",clear:"Cielo despejado",cloud:"Nubes",temp:"Temperatura",at:"Actualizado a las",
+ start:"▶ Iniciar temporizador",stop:"■ Detener temporizador",left:"Quedan",done:"⏰ ¡Se acabó el tiempo! A la sombra.",
+ fT:"Clasificación de Fitzpatrick del Tipo de Piel",fH:["Tipo","Características","Bronceado"],
+ f:[["Piel muy clara, ojos azules o verdes","Siempre se quema, nunca se broncea"],["Piel clara, ojos azules, avellana o verdes","Se quema fácilmente, se broncea con dificultad"],["Piel blanca más oscura","A veces se quema ligeramente, se broncea gradualmente"],["Piel morena clara","Se quema levemente, se broncea fácilmente"],["Piel oscura","Rara vez se quema, se broncea fácilmente"],["Piel muy oscura o negra","Nunca se quema"]],
+ iT:"Instrucciones de Uso",i:["Selecciona tu tipo de piel.","Pulsa 📍 para detectar el nivel UV donde estás (puede tardar unos segundos) o elígelo manualmente.","Elige el FPS de tu crema (opcional).","Pulsa ⏱️ para calcular el tiempo máximo de exposición.","Inicia el temporizador: te avisa al terminar."]},
+ru:{n:"Русский",title:"🌞 SunWise Protect 🌞",skin:"Тип кожи",uv:"Текущий уровень UV",spf:"Солнцезащита",none:"Нет",
+ gps:"📍 Определить UV здесь",warn:"⚠️ Всегда пользуйтесь солнцезащитным кремом!",selSkin:"⚠️ Сначала выберите тип кожи!",selUV:"⚠️ Выберите уровень UV!",
+ min:"минут",sug:"Рекомендуется",geoErr:"Не удалось определить местоположение.",noGeo:"Ваше устройство не поддерживает геолокацию.",
+ uvErr:"Ошибка получения уровня UV.",uvNow:"Текущий уровень UV: {uv}",locating:"📍 Определение…",
+ lv:["Низкий","Умеренный","Высокий","Очень высокий","Экстремальный"],now:"UV сейчас",max:"Макс. сегодня",clear:"Ясное небо",cloud:"Облачность",temp:"Температура",at:"Обновлено в",
+ start:"▶ Запустить таймер",stop:"■ Остановить таймер",left:"Осталось",done:"⏰ Время вышло! Уйдите в тень.",
+ fT:"Классификация типа кожи по Фитцпатрику",fH:["Тип","Особенности","Загар"],
+ f:[["Очень светлая кожа, голубые или зелёные глаза","Всегда обгорает, не загорает"],["Светлая кожа, голубые, ореховые или зелёные глаза","Легко обгорает, трудно загорает"],["Светлая кожа более тёмного оттенка","Иногда лёгкий ожог, постепенно загорает"],["Смуглая кожа","Слегка обгорает, легко загорает"],["Тёмная кожа","Редко обгорает, легко загорает"],["Очень тёмная или чёрная кожа","Никогда не обгорает"]],
+ iT:"Инструкция по применению",i:["Выберите тип кожи.","Нажмите 📍, чтобы определить уровень UV там, где вы находитесь (несколько секунд), или выберите вручную.","Выберите SPF крема (по желанию).","Нажмите ⏱️, чтобы рассчитать максимальное время на солнце.","Запустите таймер: он сообщит об окончании."]}
+};
+const FL={it:"🇮🇹",en:"🇬🇧",de:"🇩🇪",fr:"🇫🇷",es:"🇪🇸",ru:"🇷🇺"};
+const SKIN=["#f5e5d5","#e0c6a7","#c9a87c","#a9835a","#7e5a3c","#4e3a29"];
+const BASE=[10,20,30,45,60,90];
+const UVC=["#22c55e","#4ade80","#a3e635","#eab308","#f59e0b","#f97316","#fb5b21","#ef4444","#dc2626","#b91c1c","#a855f7"];
 const SPFS=[0,15,30,50];
-let st=JSON.parse(localStorage.sw||'{"s":1,"u":6,"p":30}'),tm=null,end=0;
 const $=i=>document.getElementById(i);
-function save(){localStorage.sw=JSON.stringify(st)}
-function minutes(){return SK[st.s][2]/(st.u*1.5)*(st.p?st.p*0.8:1)}
-function render(){
- $('skins').innerHTML=SK.map((k,i)=>`<div class="skin ${i==st.s?'on':''}" onclick="st.s=${i};save();render()"><i style="background:${k[3]}"></i><b>${k[0]}</b><br>${k[1]}</div>`).join('');
- $('spf').innerHTML=SPFS.map(p=>`<button class="${p==st.p?'on':''}" onclick="st.p=${p};save();render()">${p?'SPF '+p:'Nessuna'}</button>`).join('');
- $('uv').value=st.u;$('uvv').textContent=st.u;
- const l=UVL.find(x=>st.u<=x[0]);$('uvc').textContent=l[1];$('uvc').style.background=l[2];
- const m=Math.round(minutes());
- $('time').textContent=m>=120?Math.floor(m/60)+'h '+(m%60):m;
- $('unit').textContent=m>=120?'':'minuti';
+const detect=()=>{const l=(navigator.language||"it").slice(0,2).toLowerCase();return T[l]?l:"en"};
+let L=T[localStorage.lang]?localStorage.lang:detect();
+let skin=+localStorage.skin||0, uv=0, spf=+localStorage.spf||0, tm=null, mins=0, uvData=null;
+
+function toast(m,t="info"){const e=$("toast");e.textContent=m;e.className="show "+t;clearTimeout(toast.t);toast.t=setTimeout(()=>e.className="",3500)}
+function calc(){const b=BASE[skin-1]*5/uv;return spf?b*(1+spf*0.1):b}
+function lvIdx(u){return u<3?0:u<6?1:u<8?2:u<11?3:4}
+function uvColor(u){return UVC[Math.max(0,Math.min(10,Math.round(u)-1))]}
+
+function renderUVCard(){
+ const t=T[L],c=$("uvCard");
+ if(!uvData){c.classList.remove("show");return}
+ const d=uvData;
+ $("uvBig").textContent=d.now.toFixed(1);$("uvBig").style.background=uvColor(d.now);
+ $("uvLvl").textContent=t.lv[lvIdx(d.now)];$("uvWhen").textContent=`${t.at} ${d.time}`;
+ $("uvStats").innerHTML=`<span>☀️ ${t.max}: <b>${d.max.toFixed(1)}</b></span><span>🌤️ ${t.clear}: <b>${d.clear.toFixed(1)}</b></span>`+
+  `<span>☁️ ${t.cloud}: <b>${Math.round(d.cloud)}%</b></span><span>🌡️ ${t.temp}: <b>${Math.round(d.temp)}°C</b></span>`;
+ c.classList.add("show");
 }
-$('uv').oninput=e=>{st.u=+e.target.value;save();render()};
-$('go').onclick=()=>{
- if(tm){clearInterval(tm);tm=null;$('go').textContent='▶ Avvia timer';$('left').textContent='';return}
- end=Date.now()+minutes()*60000;$('go').textContent='■ Ferma timer';
+function render(){
+ const t=T[L];document.documentElement.lang=L;
+ $("title").textContent=t.title;$("tSkin").textContent=t.skin;$("tUV").textContent=t.uv;$("tSPF").textContent=t.spf;
+ $("avviso").textContent=t.warn;$("iTitle").textContent=t.iT;$("fTitle").textContent=t.fT;
+ $("bGeo").textContent=t.gps;
+ $("iText").innerHTML=t.i.map(x=>`<li>${x}</li>`).join("");
+ $("fTable").innerHTML=`<tr>${t.fH.map(h=>`<th>${h}</th>`).join("")}</tr>`+t.f.map((r,i)=>`<tr><td><b>${i+1}</b></td><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("");
+ $("skins").innerHTML=SKIN.map((c,i)=>`<button class="skin ${skin==i+1?"on":""}" onclick="setSkin(${i+1})"><i style="background:${c}"></i>${i+1}</button>`).join("");
+ $("uvs").innerHTML=UVC.map((c,i)=>`<button class="uvb ${uv==i+1?"on":""}" style="background:${c}" onclick="setUV(${i+1})">${i+1}</button>`).join("");
+ $("spf").innerHTML=SPFS.map(p=>`<button class="${spf==p?"on":""}" onclick="setSPF(${p})">${p?p:t.none}</button>`).join("");
+ $("langs").innerHTML=Object.keys(T).map(l=>`<button class="${L==l?"on":""}" onclick="setLang('${l}')">${FL[l]}<small>${T[l].n}</small></button>`).join("");
+ $("bTimer").textContent=tm?t.stop:t.start;$("unit").textContent=t.min;
+ renderUVCard();
+ if($("res").classList.contains("show"))show();
+}
+function setSkin(n){skin=n;localStorage.skin=n;render()}
+function setUV(n){uv=n;render()}
+function setSPF(p){spf=p;localStorage.spf=p;render()}
+function setLang(l){L=l;localStorage.lang=l;close_();render()}
+function close_(){document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("show"))}
+
+function show(){
+ const t=T[L];mins=calc();const m=Math.round(mins);
+ $("mins").textContent=m;
+ const c=m>=40?"#34c759":m>=20?"#ffcc00":"#ff3b30";
+ $("ring").style.setProperty("--c",c);$("ring").style.setProperty("--p",Math.min(100,m/90*100));
+ const rec=skin<=2&&uv>=6?"SPF 50+":skin<=4&&uv>=3?"SPF 30+":"SPF 15+";
+ $("tags").innerHTML=`<span class="tag">🧴 ${t.sug}: ${rec}</span><span class="tag">☀️ UV ${uv}</span>`+(spf?`<span class="tag">SPF ${spf}</span>`:"");
+ $("res").classList.add("show");
+}
+$("bCalc").onclick=()=>{const t=T[L];
+ if(!skin)return toast(t.selSkin,"warning");
+ if(!uv)return toast(t.selUV,"warning");
+ stopT();show();$("res").scrollIntoView({behavior:"smooth",block:"center"})};
+$("bReset").onclick=()=>{skin=0;uv=0;spf=0;uvData=null;localStorage.removeItem("skin");localStorage.removeItem("spf");
+ stopT();$("res").classList.remove("show");render()};
+
+function stopT(){clearInterval(tm);tm=null;$("left").textContent="";$("bTimer").textContent=T[L].start}
+$("bTimer").onclick=()=>{
+ if(tm)return stopT();
+ const end=Date.now()+mins*60000;$("bTimer").textContent=T[L].stop;
  tm=setInterval(()=>{const r=end-Date.now();
-  if(r<=0){clearInterval(tm);tm=null;$('left').textContent='⏰ Tempo scaduto! Mettiti all\'ombra.';
-   navigator.vibrate&&navigator.vibrate([500,200,500,200,500]);$('go').textContent='▶ Avvia timer';return}
-  const s=Math.floor(r/1000);$('left').textContent='Rimasti '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},500)};
+  if(r<=0){stopT();$("left").textContent=T[L].done;toast(T[L].done,"error");
+   navigator.vibrate&&navigator.vibrate([500,200,500,200,500]);return}
+  const s=Math.floor(r/1000);$("left").textContent=`${T[L].left} ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`},500)};
+
+function geo(){
+ const t=T[L];
+ if(!("geolocation" in navigator))return toast(t.noGeo,"error");
+ const b=$("bGeo");b.disabled=true;b.textContent=t.locating;
+ navigator.geolocation.getCurrentPosition(
+  p=>fetchUV(p.coords.latitude,p.coords.longitude),
+  ()=>{b.disabled=false;b.textContent=T[L].gps;toast(T[L].geoErr,"error")},
+  {enableHighAccuracy:false,timeout:20000,maximumAge:300000});
+}
+async function fetchUV(lat,lon){
+ const b=$("bGeo");
+ try{
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`+
+   `&current=uv_index,uv_index_clear_sky,cloud_cover,temperature_2m&daily=uv_index_max&timezone=auto&forecast_days=1`;
+  const r=await fetch(url);if(!r.ok)throw 0;
+  const d=await r.json(),c=d.current;
+  uvData={now:c.uv_index,clear:c.uv_index_clear_sky,cloud:c.cloud_cover,temp:c.temperature_2m,
+   max:d.daily.uv_index_max[0],time:c.time.slice(11,16)};
+  uv=Math.max(1,Math.min(11,Math.round(c.uv_index)));
+  render();toast(T[L].uvNow.replace("{uv}",c.uv_index.toFixed(1)));
+ }catch(e){toast(T[L].uvErr,"error")}
+ b.disabled=false;b.textContent=T[L].gps;
+}
+$("bGeo").onclick=geo;
+
+$("nLang").onclick=()=>$("sLang").classList.add("show");
+$("nInfo").onclick=()=>$("sInfo").classList.add("show");
+$("nFitz").onclick=()=>$("sFitz").classList.add("show");
+document.querySelectorAll(".sheet").forEach(s=>s.onclick=e=>{if(e.target===s)close_()});
 render();
 </script>
 </body></html>
